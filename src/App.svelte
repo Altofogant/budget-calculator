@@ -7,6 +7,10 @@
 	import ExpenseForm from './ExpenseForm.svelte';
 
 	let expenses = [...ExpensesData];
+	let setName = '';
+	let setAmount = '';
+	let setId = null;
+
 	$: total = expenses.reduce((prev, next) => {
 		return (prev += next.amount);
 	}, 0);
@@ -24,7 +28,17 @@
 		expenses = [expense,...expenses];
 	}
 
+	function setModifiedExpense(id) {
+		let expense = expenses.find(item => item.id === id);
+		console.log(expense);
+		setId = expense.id;
+		setName = expense.name;
+		setAmount = expense.amount;
+		console.log(expense.id, expense.name, expense.amount);
+	}
+
 	setContext('remove', removeExpense);
+	setContext('modify', setModifiedExpense);
 </script>
 
 <Navbar />
