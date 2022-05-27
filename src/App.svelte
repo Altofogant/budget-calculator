@@ -8,9 +8,10 @@
 
 	let expenses = [...ExpensesData];
 	let setName = '';
-	let setAmount = '';
+	let setAmount = null;
 	let setId = null;
 
+	$: isEditing = setId ? true : false;
 	$: total = expenses.reduce((prev, next) => {
 		return (prev += next.amount);
 	}, 0);
@@ -30,11 +31,19 @@
 
 	function setModifiedExpense(id) {
 		let expense = expenses.find(item => item.id === id);
-		console.log(expense);
+
 		setId = expense.id;
 		setName = expense.name;
 		setAmount = expense.amount;
-		console.log(expense.id, expense.name, expense.amount);
+	}
+
+	function editExpense({name, amount}) {
+		expenses = expenses.map(item => {
+			return item.id === setId ? {...item, name, amount} : {...item};
+		});
+		setId = null;
+		setAmount = null;
+		setName = '';
 	}
 
 	setContext('remove', removeExpense);
@@ -43,7 +52,7 @@
 
 <Navbar />
 <main class="content">
-	<ExpenseForm {addExpense}/>
+	<ExpenseForm {addExpense} name={setName} amount={setAmount} {isEditing} {editExpense}/>
 	<Totals title="Total expenses" {total} />
 	<ExpensesList {expenses} />
 	<button type="button" class="btn btn-primary btn-block" on:click={clearExpenses} >
