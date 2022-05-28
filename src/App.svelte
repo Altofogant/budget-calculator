@@ -78,7 +78,9 @@
 <Navbar {showForm} />
 <main class="content">
 	{#if isFormOpen}
-		<ExpenseForm {addExpense} name={setName} amount={setAmount} {isEditing} {editExpense} {hideForm} />
+		<Modal>
+			<ExpenseForm {addExpense} name={setName} amount={setAmount} {isEditing} {editExpense} {hideForm} />
+		</Modal>
 	{/if}
 	<Totals title="Total expenses" {total} />
 	<ExpensesList {expenses} />
@@ -86,8 +88,3 @@
 		Clear Expenses
 	</button>
 </main>
-
-<Modal>
-	<h1 slot="header">Hello world</h1>
-	<p slot="footer">Footer slots</p>
-</Modal>
