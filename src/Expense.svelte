@@ -1,4 +1,6 @@
 <script>
+    import { quintOut } from 'svelte/easing';
+    import { blur, slide, scale, fade, fly } from 'svelte/transition';
     import { getContext } from 'svelte';
     export let id;
     export let name = '';
@@ -22,7 +24,7 @@
             </button>
         </h2>
         {#if (displayAmount)}
-            <h4>Amount: ${amount}</h4>
+            <h4 in:fly={{x:100,y:100,duration:2000, delay:500, easing:quintOut}} out:slide>Amount: ${amount}</h4>
         {/if}
     </div>
     <div class="expense-buttons">
