@@ -2,7 +2,7 @@
 	import Navbar from './Navbar.svelte';
 	//import ExpensesData from './expenses.js';
 	import ExpensesList from './ExpensesList.svelte';
-	import { setContext, onMount } from 'svelte';
+	import { setContext, onMount, afterUpdate } from 'svelte';
 	import Totals from './Totals.svelte';
 	import ExpenseForm from './ExpenseForm.svelte';
 
@@ -30,18 +30,15 @@
 
 	function removeExpense(id) {
 		expenses = expenses.filter(item => item.id !== id);
-		setLocalStorage();
 	}
 
 	function clearExpenses() {
 		expenses = [];
-		setLocalStorage();
 	}
 
 	function addExpense({name, amount}) {
 		let expense = {id: Math.random() * Date.now(), name, amount};
 		expenses = [expense,...expenses];
-		setLocalStorage();
 	}
 
 	function setModifiedExpense(id) {
@@ -59,7 +56,6 @@
 		setId = null;
 		setAmount = null;
 		setName = '';
-		setLocalStorage();
 	}
 
 	setContext('remove', removeExpense);
@@ -68,8 +64,13 @@
 	function setLocalStorage() {
 		localStorage.setItem('expenses', JSON.stringify(expenses));
 	}
+
 	onMount(() => {
 		expenses = localStorage.getItem('expenses') ? JSON.parse(localStorage.getItem('expenses')) : [];
+	});
+	
+	afterUpdate(() => {
+		setLocalStorage();
 	})
 </script>
 
