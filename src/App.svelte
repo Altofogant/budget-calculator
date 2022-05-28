@@ -1,4 +1,5 @@
 <script>
+	import Modal from './Modal.svelte';
 	import Navbar from './Navbar.svelte';
 	//import ExpensesData from './expenses.js';
 	import ExpensesList from './ExpensesList.svelte';
@@ -85,3 +86,8 @@
 		Clear Expenses
 	</button>
 </main>
+
+<Modal>
+	<h1 slot="header">Hello world</h1>
+	<p slot="footer">Footer slots</p>
+</Modal>
